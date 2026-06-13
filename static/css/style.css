@@ -116,7 +116,13 @@ body {
   align-items: center;
   gap: .4rem;
 }
-.pill i { color: var(--accent); }
+.pill-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
 
 /* How It Works */
 .how-section { background: var(--bg-surface); }
@@ -184,12 +190,11 @@ body {
   box-shadow: 0 20px 60px rgba(0,0,0,.5);
 }
 .auth-icon-wrap {
-  width: 70px; height: 70px;
-  background: linear-gradient(135deg, var(--accent), #a78bfa);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 1.2rem;
-  box-shadow: 0 0 30px var(--accent-glow);
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  box-shadow: 0 0 30px rgba(139,92,246,.35);
+}
+.voter-icon-wrap {
+  background: linear-gradient(135deg, #10b981, #3b82f6);
 }
 .voter-icon-wrap { background: linear-gradient(135deg, #22c55e, #16a34a); }
 .auth-icon { font-size: 1.8rem; color: #fff; }
@@ -200,28 +205,19 @@ body {
 
 /* ── Dashboard Cards ─────────────────────────────────────────────── */
 .stat-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
+  background: rgba(255,255,255,.04);
+  border: 0.5px solid rgba(255,255,255,.08);
   border-radius: 16px;
   padding: 1.25rem 1rem;
   text-align: center;
-  position: relative;
-  overflow: hidden;
-  transition: transform .2s;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: transform .2s, border-color .2s;
 }
-.stat-card:hover { transform: translateY(-3px); }
-.stat-blue   { border-left: 3px solid #3b82f6; }
-.stat-green  { border-left: 3px solid var(--success); }
-.stat-purple { border-left: 3px solid var(--accent); }
-.stat-orange { border-left: 3px solid var(--warning); }
-.stat-icon { font-size: 1.8rem; color: var(--text-dim); display: block; margin-bottom: .4rem; }
-.stat-val   { font-size: 2rem; font-weight: 800; line-height: 1; }
-.stat-label { font-size: .78rem; color: var(--text-dim); margin-top: .25rem; }
-.stat-blue   .stat-val { color: #3b82f6; }
-.stat-green  .stat-val { color: var(--success); }
-.stat-purple .stat-val { color: var(--accent); }
-.stat-orange .stat-val { color: var(--warning); }
-
+.stat-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255,255,255,.16);
+}
 .dash-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
@@ -296,8 +292,8 @@ body {
 }
 .candidate-card.selected .candidate-inner {
   border-color: var(--accent);
-  background: rgba(108,99,255,.1);
-  box-shadow: 0 0 20px var(--accent-glow);
+  background: rgba(139,92,246,.12);
+  box-shadow: 0 0 0 3px rgba(139,92,246,.25);
 }
 
 .candidate-avatar {
@@ -310,6 +306,11 @@ body {
   display: flex; align-items: center; justify-content: center;
   margin: 0 auto .75rem;
 }
+.av-1 { background: linear-gradient(135deg, #8b5cf6, #ec4899); }
+.av-2 { background: linear-gradient(135deg, #06b6d4, #3b82f6); }
+.av-3 { background: linear-gradient(135deg, #10b981, #3b82f6); }
+.av-4 { background: linear-gradient(135deg, #f59e0b, #ef4444); }
+.av-0 { background: linear-gradient(135deg, #6366f1, #8b5cf6); }
 .candidate-name { font-weight: 600; font-size: .95rem; margin-bottom: .2rem; }
 .candidate-id   { font-size: .78rem; }
 .vote-checkmark {
@@ -370,13 +371,18 @@ body {
   text-align: center;
 }
 
-.result-bar-bg { background: rgba(255,255,255,.06); border-radius: 8px; height: 8px; }
-.result-bar-fill {
-  background: linear-gradient(90deg, var(--accent), #a78bfa);
-  border-radius: 8px;
-  height: 8px;
-  transition: width .8s ease;
-}
+.result-bar-bg { background: rgba(255,255,255,.06); border-radius: 8px; height: 10px; }
+.progress-bar  { height: 10px; border-radius: 8px; transition: width .9s ease; }
+.bf-purple { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+.bf-blue   { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+.bf-green  { background: linear-gradient(90deg, #10b981, #34d399); }
+.bf-amber  { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+.bf-red    { background: linear-gradient(90deg, #ef4444, #f87171); }
+.result-vote-1 { color: #a78bfa; }
+.result-vote-2 { color: #60a5fa; }
+.result-vote-3 { color: #34d399; }
+.result-vote-4 { color: #fbbf24; }
+.result-vote-5 { color: #f87171; }
 
 /* ── Blockchain Explorer ─────────────────────────────────────────── */
 .blockchain-status {
@@ -399,7 +405,26 @@ body {
   transition: border-color .2s;
 }
 .block-card:hover { border-color: var(--accent); }
-.genesis-block { border-color: rgba(245,158,11,.4); background: rgba(245,158,11,.05); }
+.genesis-block {
+  border-color: rgba(251,191,36,.4);
+  background: rgba(251,191,36,.06);
+  position: relative;
+}
+.genesis-block::before {
+  content: "GENESIS";
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(251,191,36,.2);
+  border: 0.5px solid rgba(251,191,36,.4);
+  color: #fbbf24;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  padding: 2px 10px;
+  border-radius: 50px;
+}
 
 .block-header {
   display: flex;
@@ -424,10 +449,11 @@ body {
 .block-footer { margin-top: .75rem; border-top: 1px solid var(--border); padding-top: .75rem; }
 
 .chain-link {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   color: var(--accent);
-  padding: .25rem 0;
-  opacity: .6;
+  padding: .1rem 0;
+  opacity: .5;
+  line-height: 1;
 }
 
 .btn-xs { font-size: .75rem; padding: .2rem .6rem; border-radius: 6px; }

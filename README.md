@@ -171,7 +171,7 @@ Each vote creates a new block containing:
 
 ---
 
-*Developed as a CSE Mini Project — 2026git branch -M main
+*Developed as a CSE Mini Project — 2026 git branch -M main
 *
 "# blockchian-project"  "# blockchian-project" 
 "# blockchian-project" 

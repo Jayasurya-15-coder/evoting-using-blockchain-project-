@@ -26,6 +26,7 @@
   <div class="col-md-5">
     <div class="dash-card">
       <h5 class="dash-card-title"><i class="bi bi-list-ol me-2"></i>Vote Breakdown</h5>
+      {% set bar_classes = ['bf-purple', 'bf-blue', 'bf-green', 'bf-amber', 'bf-red'] %}
       {% for r in results %}
       <div class="result-row mb-3">
         <div class="d-flex justify-content-between mb-1">
@@ -33,10 +34,10 @@
             {% if loop.index == 1 %}<i class="bi bi-trophy-fill text-warning me-1"></i>{% endif %}
             {{ r.candidate_name }}
           </span>
-          <span class="text-accent fw-bold">{{ r.vote_count }} votes</span>
+          <span class="fw-bold result-vote-{{ loop.index }}">{{ r.vote_count }} votes</span>
         </div>
         <div class="progress result-bar-bg">
-          <div class="progress-bar result-bar-fill"
+          <div class="progress-bar {{ bar_classes[loop.index0 % bar_classes|length] }}"
                style="width: {{ ((r.vote_count / total) * 100) | round if total > 0 else 0 }}%">
             {{ ((r.vote_count / total) * 100) | round(1) if total > 0 else 0 }}%
           </div>

@@ -38,7 +38,7 @@
           <input type="radio" name="candidate_id" id="c{{ candidate.candidate_id }}"
                  value="{{ candidate.candidate_id }}" class="candidate-radio" required/>
           <div class="candidate-inner">
-            <div class="candidate-avatar">
+            <div class="candidate-avatar" data-color="{{ loop.index0 % 4 }}">
               {{ candidate.candidate_name[0].upper() }}
             </div>
             <div class="candidate-name">{{ candidate.candidate_name }}</div>
