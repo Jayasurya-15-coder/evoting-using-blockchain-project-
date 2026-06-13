@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% block title %}Blockchain Explorer | BlockVote{% endblock %}
+
+{% block content %}
+<div class="page-header mb-4">
+  <h2><i class="bi bi-boxes me-2 text-accent"></i>Blockchain Explorer</h2>
+  <p class="text-muted mb-0">Inspect every block in the vote ledger</p>
+</div>
+
+<!-- Status Bar -->
+<div class="blockchain-status mb-4">
+  <div class="d-flex flex-wrap gap-3 align-items-center">
+    <div class="chain-stat">
+      <i class="bi bi-link-45deg me-1 text-accent"></i>
+      <span class="fw-bold text-light">{{ chain_length }}</span>
+      <span class="text-muted ms-1">Blocks</span>
+    </div>
+    <div class="chain-stat">
+      <i class="bi bi-{% if is_valid %}shield-check-fill text-success{% else %}shield-exclamation-fill text-danger{% endif %} me-1"></i>
+      <span class="fw-bold {% if is_valid %}text-success{% else %}text-danger{% endif %}">
+        {% if is_valid %}Chain Valid{% else %}CHAIN COMPROMISED{% endif %}
+      </span>
+    </div>
+    <div class="ms-auto d-flex gap-2">
+      <button class="btn btn-sm btn-outline-success" onclick="verifyChain()">
+        <i class="bi bi-patch-check me-1"></i>Verify Now
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Search -->
+<div class="dash-card mb-4">
+  <form method="GET" action="{{ url_for('search_blockchain') }}" class="d-flex gap-2">
+    <input type="text" name="hash" class="form-control bg-dark text-light border-secondary"
+           placeholder="Search by block hash or previous hash..."
+           value="{{ search_query or '' }}"/>
+    <button type="submit" class="btn btn-accent px-3">
+      <i class="bi bi-search"></i>
+    </button>
+    {% if search_query %}
+    <a href="{{ url_for('view_blockchain') }}" class="btn btn-outline-secondary px-3">
+      <i class="bi bi-x"></i>
+    </a>
+    {% endif %}
+  </form>
+  {% if search_query %}
+    {% if search_result %}
+      <div class="alert alert-success mt-3 mb-0">
+        <strong>Found Block #{{ search_result.index }}</strong> — Hash: <code>{{ search_result.current_hash[:32] }}...</code>
+      </div>
+    {% else %}
+      <div class="alert alert-danger mt-3 mb-0">No block found for that hash.</div>
+    {% endif %}
+  {% endif %}
+</div>
+
+<!-- Block Chain Visualization -->
+<div class="blockchain-visual">
+  {% for block in blocks %}
+  <div class="block-card {% if block.block_index == 0 %}genesis-block{% endif %}">
+    <div class="block-header">
+      <span class="block-index">
+        {% if block.block_index == 0 %}
+          <i class="bi bi-star-fill text-warning me-1"></i>Genesis Block
+        {% else %}
+          Block #{{ block.block_index }}
+        {% endif %}
+      </span>
+      <span class="block-time text-muted small">{{ block.timestamp[:19] }}</span>
+    </div>
+    <div class="block-body">
+      <div class="hash-row">
+        <span class="hash-key">Vote Data</span>
+        <span class="hash-val text-info">{{ block.vote_data }}</span>
+      </div>
+      <div class="hash-row">
+        <span class="hash-key">Prev Hash</span>
+        <span class="hash-val text-muted">{{ block.previous_hash[:32] }}...</span>
+      </div>
+      <div class="hash-row">
+        <span class="hash-key">Curr Hash</span>
+        <span class="hash-val text-accent">{{ block.current_hash[:32] }}...</span>
+      </div>
+    </div>
+    <div class="block-footer">
+      <button class="btn btn-xs btn-outline-secondary" onclick="copyToClip('{{ block.current_hash }}')">
+        <i class="bi bi-clipboard me-1"></i>Copy Hash
+      </button>
+    </div>
+  </div>
+  {% if not loop.last %}
+  <div class="chain-link"><i class="bi bi-arrow-down text-accent"></i></div>
+  {% endif %}
+  {% endfor %}
+
+  {% if not blocks %}
+    <div class="empty-state text-center py-5">
+      <i class="bi bi-inbox fs-1 text-muted"></i>
+      <p class="text-muted mt-2">No blocks yet. Genesis block will appear once the chain is initialized.</p>
+    </div>
+  {% endif %}
+</div>
+
+<!-- Verify Modal Output -->
+<div id="verifyResult" class="alert mt-3 d-none"></div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function verifyChain() {
+  fetch("{{ url_for('verify_blockchain') }}")
+    .then(r => r.json())
+    .then(data => {
+      const box = document.getElementById('verifyResult');
+      box.className = `alert mt-3 alert-${data.valid ? 'success' : 'danger'}`;
+      box.innerHTML = `<i class="bi bi-${data.valid ? 'shield-check' : 'shield-x'} me-2"></i>
+                       <strong>${data.message}</strong> — Chain Length: ${data.chain_length}`;
+      box.classList.remove('d-none');
+      box.scrollIntoView({ behavior: 'smooth' });
+    });
+}
+
+function copyToClip(text) {
+  navigator.clipboard.writeText(text).then(() => alert('Hash copied!'));
+}
+</script>
+{% endblock %}

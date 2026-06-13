@@ -1,0 +1,480 @@
+/* ================================================================
+   BlockVote E-Voting System — Main Stylesheet
+   Design: Dark tech theme with electric violet accents
+   ================================================================ */
+
+/* ── Tokens ─────────────────────────────────────────────────────── */
+:root {
+  --bg-base:    #0d0f1a;
+  --bg-surface: #13172b;
+  --bg-card:    #181d35;
+  --border:     #252a45;
+  --accent:     #6c63ff;
+  --accent-glow:rgba(108,99,255,0.25);
+  --text-dim:   #8890b5;
+  --text-light: #e2e8f0;
+  --success:    #22c55e;
+  --danger:     #ef4444;
+  --warning:    #f59e0b;
+  --info:       #22d3ee;
+}
+
+/* ── Reset & Base ───────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg-base);
+  color: var(--text-light);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  min-height: 100vh;
+}
+
+/* ── Utility ─────────────────────────────────────────────────────── */
+.text-accent  { color: var(--accent) !important; }
+.bg-accent    { background: var(--accent) !important; }
+
+/* ── Navbar ──────────────────────────────────────────────────────── */
+.nav-glass {
+  background: rgba(13, 15, 26, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 1px 24px rgba(0,0,0,0.4);
+}
+.navbar-brand { font-size: 1.2rem; letter-spacing: .5px; }
+.btn-accent {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  transition: background .2s, box-shadow .2s;
+}
+.btn-accent:hover {
+  background: #5851d8;
+  color: #fff;
+  box-shadow: 0 0 16px var(--accent-glow);
+}
+
+/* ── Home Page ───────────────────────────────────────────────────── */
+.home-page { background: var(--bg-base); }
+
+.hero-section {
+  min-height: 75vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 1rem 3rem;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 0%, rgba(108,99,255,.18), transparent),
+    var(--bg-base);
+}
+.hero-badge {
+  display: inline-block;
+  background: rgba(108,99,255,.15);
+  border: 1px solid rgba(108,99,255,.35);
+  color: var(--accent);
+  font-size: .78rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: .3rem 1rem;
+  border-radius: 50px;
+}
+.hero-title {
+  font-size: clamp(2.8rem, 7vw, 5rem);
+  font-weight: 800;
+  background: linear-gradient(135deg, #fff 40%, var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.1;
+  margin: .4rem 0 0;
+}
+.hero-subtitle {
+  font-size: clamp(1rem, 3vw, 1.5rem);
+  font-weight: 300;
+  color: var(--text-dim);
+  margin-top: .25rem;
+}
+.hero-desc {
+  max-width: 560px;
+  margin: 0 auto;
+  color: var(--text-dim);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.feature-pills { display: flex; flex-wrap: wrap; gap: .6rem; justify-content: center; }
+.pill {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: .8rem;
+  padding: .35rem .9rem;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+}
+.pill i { color: var(--accent); }
+
+/* How It Works */
+.how-section { background: var(--bg-surface); }
+.section-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-light);
+}
+
+.step-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  transition: transform .25s, box-shadow .25s;
+  position: relative;
+  overflow: hidden;
+}
+.step-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(108,99,255,.2);
+}
+.step-num {
+  position: absolute;
+  top: 1rem; right: 1rem;
+  font-size: .75rem;
+  font-weight: 700;
+  color: var(--border);
+  letter-spacing: 1px;
+}
+.step-icon {
+  font-size: 2.2rem;
+  color: var(--accent);
+  margin-bottom: .75rem;
+  display: block;
+}
+.step-card h5 { font-size: 1rem; font-weight: 600; margin-bottom: .4rem; }
+.step-card p  { font-size: .85rem; color: var(--text-dim); margin: 0; }
+
+/* ── App Pages (base.html children) ─────────────────────────────── */
+.app-body { background: var(--bg-base); }
+
+.page-header h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: .25rem;
+}
+
+/* ── Auth Card ───────────────────────────────────────────────────── */
+.auth-wrapper {
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+.auth-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.5);
+}
+.auth-icon-wrap {
+  width: 70px; height: 70px;
+  background: linear-gradient(135deg, var(--accent), #a78bfa);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 1.2rem;
+  box-shadow: 0 0 30px var(--accent-glow);
+}
+.voter-icon-wrap { background: linear-gradient(135deg, #22c55e, #16a34a); }
+.auth-icon { font-size: 1.8rem; color: #fff; }
+.auth-title { font-size: 1.4rem; font-weight: 700; text-align: center; margin-bottom: .25rem; }
+.auth-sub   { color: var(--text-dim); text-align: center; font-size: .88rem; margin-bottom: 1.5rem; }
+.auth-hint  { text-align: center; color: var(--text-dim); font-size: .82rem; }
+.auth-hint code { background: rgba(255,255,255,.06); border-radius: 4px; padding: 1px 5px; color: var(--accent); }
+
+/* ── Dashboard Cards ─────────────────────────────────────────────── */
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.25rem 1rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: transform .2s;
+}
+.stat-card:hover { transform: translateY(-3px); }
+.stat-blue   { border-left: 3px solid #3b82f6; }
+.stat-green  { border-left: 3px solid var(--success); }
+.stat-purple { border-left: 3px solid var(--accent); }
+.stat-orange { border-left: 3px solid var(--warning); }
+.stat-icon { font-size: 1.8rem; color: var(--text-dim); display: block; margin-bottom: .4rem; }
+.stat-val   { font-size: 2rem; font-weight: 800; line-height: 1; }
+.stat-label { font-size: .78rem; color: var(--text-dim); margin-top: .25rem; }
+.stat-blue   .stat-val { color: #3b82f6; }
+.stat-green  .stat-val { color: var(--success); }
+.stat-purple .stat-val { color: var(--accent); }
+.stat-orange .stat-val { color: var(--warning); }
+
+.dash-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.5rem;
+}
+.dash-card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-light);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+/* Election status badge */
+.election-status-badge {
+  padding: .5rem 1.2rem;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: .85rem;
+  letter-spacing: .5px;
+}
+.election-status-badge.active   { background: rgba(34,197,94,.15); border: 1px solid var(--success); color: var(--success); }
+.election-status-badge.inactive { background: rgba(100,116,139,.12); border: 1px solid #475569; color: #94a3b8; }
+
+/* Blink animation for active indicator */
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+.blink { animation: blink 1.4s infinite; }
+
+/* Quick Action Cards */
+.quick-action-card {
+  display: block;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.4rem 1.25rem;
+  text-decoration: none;
+  color: var(--text-light);
+  transition: border-color .2s, transform .2s, box-shadow .2s;
+}
+.quick-action-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 24px var(--accent-glow);
+  color: var(--text-light);
+}
+.qa-icon { font-size: 1.8rem; display: block; margin-bottom: .6rem; }
+.quick-action-card h6 { font-weight: 600; margin-bottom: .25rem; }
+
+/* ── Voting / Candidate Cards ────────────────────────────────────── */
+.candidate-card {
+  display: block;
+  cursor: pointer;
+  border-radius: 14px;
+  overflow: hidden;
+}
+.candidate-radio { display: none; }
+
+.candidate-inner {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: 14px;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  transition: border-color .2s, box-shadow .2s, transform .2s;
+  position: relative;
+}
+.candidate-card:hover .candidate-inner {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+}
+.candidate-card.selected .candidate-inner {
+  border-color: var(--accent);
+  background: rgba(108,99,255,.1);
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+
+.candidate-avatar {
+  width: 60px; height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), #a78bfa);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto .75rem;
+}
+.candidate-name { font-weight: 600; font-size: .95rem; margin-bottom: .2rem; }
+.candidate-id   { font-size: .78rem; }
+.vote-checkmark {
+  position: absolute;
+  top: .6rem; right: .6rem;
+  font-size: 1.2rem;
+  color: var(--accent);
+  opacity: 0;
+  transition: opacity .2s;
+}
+.candidate-card.selected .vote-checkmark { opacity: 1; }
+
+/* ── Confirmation Page ───────────────────────────────────────────── */
+.confirm-circle {
+  width: 90px; height: 90px;
+  border-radius: 50%;
+  background: rgba(34,197,94,.15);
+  border: 3px solid var(--success);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto;
+  box-shadow: 0 0 40px rgba(34,197,94,.3);
+}
+.confirm-check { font-size: 2.5rem; color: var(--success); }
+
+.hash-display {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.2rem 1.5rem;
+  max-width: 600px;
+  word-break: break-all;
+}
+.hash-label { font-size: .78rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); margin-bottom: .4rem; }
+.hash-value { font-family: monospace; font-size: .88rem; color: var(--accent); }
+
+.confirm-info-row {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.confirm-info-item {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  font-size: .88rem;
+  color: var(--text-dim);
+}
+
+/* ── Results Page ────────────────────────────────────────────────── */
+.winner-banner {
+  background: linear-gradient(135deg, rgba(245,158,11,.15), rgba(251,191,36,.08));
+  border: 1px solid rgba(245,158,11,.4);
+  border-radius: 14px;
+  padding: 1rem 1.5rem;
+  color: var(--warning);
+  font-size: 1rem;
+  text-align: center;
+}
+
+.result-bar-bg { background: rgba(255,255,255,.06); border-radius: 8px; height: 8px; }
+.result-bar-fill {
+  background: linear-gradient(90deg, var(--accent), #a78bfa);
+  border-radius: 8px;
+  height: 8px;
+  transition: width .8s ease;
+}
+
+/* ── Blockchain Explorer ─────────────────────────────────────────── */
+.blockchain-status {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1rem 1.5rem;
+}
+.chain-stat { font-size: .9rem; }
+
+.blockchain-visual { display: flex; flex-direction: column; align-items: center; }
+
+.block-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.25rem 1.5rem;
+  width: 100%;
+  max-width: 780px;
+  transition: border-color .2s;
+}
+.block-card:hover { border-color: var(--accent); }
+.genesis-block { border-color: rgba(245,158,11,.4); background: rgba(245,158,11,.05); }
+
+.block-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: .75rem;
+  padding-bottom: .6rem;
+  border-bottom: 1px solid var(--border);
+}
+.block-index { font-weight: 700; color: var(--accent); }
+
+.hash-row {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  font-size: .82rem;
+  margin-bottom: .4rem;
+}
+.hash-key  { color: var(--text-dim); min-width: 70px; flex-shrink: 0; }
+.hash-val  { font-family: monospace; word-break: break-all; }
+
+.block-footer { margin-top: .75rem; border-top: 1px solid var(--border); padding-top: .75rem; }
+
+.chain-link {
+  font-size: 1.4rem;
+  color: var(--accent);
+  padding: .25rem 0;
+  opacity: .6;
+}
+
+.btn-xs { font-size: .75rem; padding: .2rem .6rem; border-radius: 6px; }
+
+/* ── Table overrides ─────────────────────────────────────────────── */
+.table-dark { background: transparent; }
+.table-dark td, .table-dark th { border-color: var(--border); padding: .75rem 1rem; }
+.table-hover.table-dark tbody tr:hover { background: rgba(108,99,255,.08); }
+
+/* ── Empty State ─────────────────────────────────────────────────── */
+.empty-state { text-align: center; padding: 3rem 1rem; }
+
+/* ── Footer ──────────────────────────────────────────────────────── */
+.footer-dark {
+  background: var(--bg-surface);
+  border-top: 1px solid var(--border);
+}
+.footer-dark p,
+.footer-dark .text-muted {
+  color: var(--text-light) !important;
+}
+.footer-dark .text-accent,
+.footer-dark i {
+  color: #ffd166 !important;
+}
+
+/* ── Form controls dark ──────────────────────────────────────────── */
+.form-control:focus, .form-select:focus {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px var(--accent-glow) !important;
+  background: #1a1f38 !important;
+  color: var(--text-light) !important;
+}
+.input-group-text { border-color: var(--border) !important; }
+
+/* ── Alert overrides ─────────────────────────────────────────────── */
+.alert { border-radius: 12px; border: none; }
+.alert-success { background: rgba(34,197,94,.12); color: #86efac; }
+.alert-danger   { background: rgba(239,68,68,.12);  color: #fca5a5; }
+.alert-warning  { background: rgba(245,158,11,.12); color: #fcd34d; }
+.alert-info     { background: rgba(34,211,238,.12); color: #67e8f9; }
+
+/* ── Responsive ──────────────────────────────────────────────────── */
+@media (max-width: 576px) {
+  .auth-card { padding: 1.75rem 1.25rem; }
+  .dash-card { padding: 1rem; }
+  .block-card { padding: 1rem; }
+  .hash-row { flex-direction: column; gap: .2rem; }
+  .confirm-info-row { gap: 1rem; }
+}

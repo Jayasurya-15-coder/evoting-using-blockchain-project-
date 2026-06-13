@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block title %}Election Results | BlockVote{% endblock %}
+
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="page-header mb-4 text-center">
+  <h2><i class="bi bi-bar-chart-fill me-2 text-accent"></i>Election Results</h2>
+  <p class="text-muted">Total Votes Cast: <strong class="text-light">{{ total }}</strong></p>
+</div>
+
+<!-- Winner Banner -->
+{% if winner and winner.vote_count > 0 %}
+<div class="winner-banner mb-4">
+  <i class="bi bi-trophy-fill me-2"></i>
+  Winner: <strong>{{ winner.candidate_name }}</strong>
+  with {{ winner.vote_count }} vote(s)
+  ({{ ((winner.vote_count / total) * 100) | round(1) if total > 0 else 0 }}%)
+</div>
+{% endif %}
+
+<!-- Results Table + Chart -->
+<div class="row g-4">
+  <div class="col-md-5">
+    <div class="dash-card">
+      <h5 class="dash-card-title"><i class="bi bi-list-ol me-2"></i>Vote Breakdown</h5>
+      {% for r in results %}
+      <div class="result-row mb-3">
+        <div class="d-flex justify-content-between mb-1">
+          <span class="fw-semibold text-light">
+            {% if loop.index == 1 %}<i class="bi bi-trophy-fill text-warning me-1"></i>{% endif %}
+            {{ r.candidate_name }}
+          </span>
+          <span class="text-accent fw-bold">{{ r.vote_count }} votes</span>
+        </div>
+        <div class="progress result-bar-bg">
+          <div class="progress-bar result-bar-fill"
+               style="width: {{ ((r.vote_count / total) * 100) | round if total > 0 else 0 }}%">
+            {{ ((r.vote_count / total) * 100) | round(1) if total > 0 else 0 }}%
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      {% if not results %}
+        <p class="text-muted">No votes cast yet.</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="col-md-7">
+    <div class="dash-card">
+      <h5 class="dash-card-title"><i class="bi bi-bar-chart me-2"></i>Vote Distribution</h5>
+      <canvas id="resultsChart" height="250"></canvas>
+    </div>
+  </div>
+</div>
+
+{% if is_admin %}
+<div class="text-center mt-4">
+  <button class="btn btn-outline-primary me-2" onclick="window.print()">
+    <i class="bi bi-printer me-1"></i>Print Results
+  </button>
+  <a href="{{ url_for('export_results') }}" class="btn btn-outline-success" target="_blank">
+    <i class="bi bi-download me-1"></i>Export JSON
+  </a>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+const labels = [{% for r in results %}"{{ r.candidate_name }}",{% endfor %}];
+const votes  = [{% for r in results %}{{ r.vote_count }},{% endfor %}];
+const colors = ['#6c63ff','#22d3ee','#34d399','#f59e0b','#f87171'];
+
+new Chart(document.getElementById('resultsChart'), {
+  type: 'bar',
+  data: {
+    labels,
+    datasets: [{
+      label: 'Votes',
+      data: votes,
+      backgroundColor: colors.slice(0, labels.length),
+      borderRadius: 8,
+      borderSkipped: false,
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: {
+        label: ctx => ` ${ctx.parsed.y} votes`
+      }}
+    },
+    scales: {
+      x: { ticks: { color: '#aaa' }, grid: { color: '#333' } },
+      y: { ticks: { color: '#aaa', stepSize: 1 }, grid: { color: '#333' }, beginAtZero: true }
+    }
+  }
+});
+</script>
+{% endblock %}

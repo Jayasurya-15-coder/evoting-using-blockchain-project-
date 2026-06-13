@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Registered Voters | BlockVote{% endblock %}
+
+{% block content %}
+<div class="page-header mb-4">
+  <h2><i class="bi bi-person-lines-fill me-2 text-accent"></i>Registered Voters</h2>
+  <p class="text-muted mb-0">All voters and their voting status</p>
+</div>
+
+<div class="dash-card">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="dash-card-title mb-0">
+      Voter Registry
+      <span class="badge bg-accent ms-2">{{ voters|length }} Total</span>
+    </h5>
+    <div>
+      {% set voted_count = voters | selectattr('has_voted') | list | length %}
+      <span class="badge bg-success me-1">{{ voted_count }} Voted</span>
+      <span class="badge bg-secondary">{{ voters|length - voted_count }} Pending</span>
+    </div>
+  </div>
+
+  <!-- Search -->
+  <div class="mb-3">
+    <input type="text" id="voterSearch" class="form-control bg-dark text-light border-secondary"
+           placeholder="Search by Voter ID or Name..." oninput="filterVoters()"/>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-dark table-hover align-middle" id="voterTable">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Voter ID</th>
+          <th>Name</th>
+          <th>Voted?</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for v in voters %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td><code class="text-accent">{{ v.voter_id }}</code></td>
+          <td><i class="bi bi-person me-1 text-muted"></i>{{ v.name }}</td>
+          <td>
+            {% if v.has_voted %}
+              <span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Voted</span>
+            {% else %}
+              <span class="badge bg-secondary"><i class="bi bi-hourglass me-1"></i>Not Yet</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function filterVoters() {
+  const q = document.getElementById('voterSearch').value.toLowerCase();
+  document.querySelectorAll('#voterTable tbody tr').forEach(row => {
+    row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+{% endblock %}

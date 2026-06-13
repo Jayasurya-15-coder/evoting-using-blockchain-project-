@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Vote Confirmed | BlockVote{% endblock %}
+
+{% block content %}
+<div class="text-center py-5">
+  <!-- Animated checkmark -->
+  <div class="confirm-circle mb-4">
+    <i class="bi bi-check-lg confirm-check"></i>
+  </div>
+
+  <h2 class="text-success mb-2">Vote Successfully Recorded!</h2>
+  <p class="text-muted mb-4">Your vote has been added to the blockchain. It is now immutable and tamper-proof.</p>
+
+  <!-- Block Hash Display -->
+  <div class="hash-display mx-auto mb-4">
+    <div class="hash-label"><i class="bi bi-link-45deg me-1 text-accent"></i>Block Hash</div>
+    <div class="hash-value" id="hashVal">{{ block_hash }}</div>
+    <button class="btn btn-sm btn-outline-secondary mt-2" onclick="copyHash()">
+      <i class="bi bi-clipboard me-1"></i>Copy Hash
+    </button>
+  </div>
+
+  <div class="confirm-info-row mb-4">
+    <div class="confirm-info-item">
+      <i class="bi bi-shield-check-fill text-success"></i>
+      <span>Blockchain Verified</span>
+    </div>
+    <div class="confirm-info-item">
+      <i class="bi bi-eye-slash-fill text-accent"></i>
+      <span>Identity Protected</span>
+    </div>
+    <div class="confirm-info-item">
+      <i class="bi bi-lock-fill text-warning"></i>
+      <span>Tamper-Proof</span>
+    </div>
+  </div>
+
+  <div class="d-flex gap-2 justify-content-center flex-wrap">
+    <a href="{{ url_for('public_results') }}" class="btn btn-accent px-4">
+      <i class="bi bi-bar-chart me-1"></i>View Results
+    </a>
+    <a href="{{ url_for('voter_logout') }}" class="btn btn-outline-secondary px-4">
+      <i class="bi bi-box-arrow-right me-1"></i>Logout
+    </a>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function copyHash() {
+  const hash = document.getElementById('hashVal').textContent;
+  navigator.clipboard.writeText(hash).then(() => {
+    alert('Block hash copied to clipboard!');
+  });
+}
+</script>
+{% endblock %}

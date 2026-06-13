@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard | BlockVote{% endblock %}
+
+{% block content %}
+<div class="page-header mb-4">
+  <h2><i class="bi bi-speedometer2 me-2 text-accent"></i>Admin Dashboard</h2>
+  <p class="text-muted mb-0">Election Management Control Panel</p>
+</div>
+
+<!-- Stats Cards -->
+<div class="row g-3 mb-4">
+  <div class="col-6 col-md-3">
+    <div class="stat-card stat-blue">
+      <i class="bi bi-people-fill stat-icon"></i>
+      <div class="stat-val">{{ total_voters }}</div>
+      <div class="stat-label">Registered Voters</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="stat-card stat-green">
+      <i class="bi bi-person-hearts stat-icon"></i>
+      <div class="stat-val">{{ total_candidates }}</div>
+      <div class="stat-label">Candidates</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="stat-card stat-purple">
+      <i class="bi bi-check-circle-fill stat-icon"></i>
+      <div class="stat-val">{{ total_votes }}</div>
+      <div class="stat-label">Votes Cast</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="stat-card stat-orange">
+      <i class="bi bi-link-45deg stat-icon"></i>
+      <div class="stat-val">{{ chain_length }}</div>
+      <div class="stat-label">Chain Blocks</div>
+    </div>
+  </div>
+</div>
+
+<!-- Election Control -->
+<div class="dash-card mb-4">
+  <h5 class="dash-card-title"><i class="bi bi-toggles me-2"></i>Election Control</h5>
+  <div class="d-flex align-items-center gap-3 flex-wrap">
+    <div class="election-status-badge {% if election.election_active %}active{% else %}inactive{% endif %}">
+      <i class="bi bi-{% if election.election_active %}circle-fill blink{% else %}stop-circle{% endif %} me-1"></i>
+      {% if election.election_active %}ELECTION ACTIVE{% else %}ELECTION INACTIVE{% endif %}
+    </div>
+    {% if election.election_active %}
+      <a href="{{ url_for('end_election') }}" class="btn btn-danger"
+         onclick="return confirm('Are you sure you want to END the election?')">
+        <i class="bi bi-stop-fill me-1"></i>End Election
+      </a>
+    {% else %}
+      <a href="{{ url_for('start_election') }}" class="btn btn-success"
+         onclick="return confirm('Start the election? Voters will be able to vote.')">
+        <i class="bi bi-play-fill me-1"></i>Start Election
+      </a>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="row g-3">
+  <div class="col-md-4">
+    <a href="{{ url_for('manage_candidates') }}" class="quick-action-card">
+      <i class="bi bi-person-plus-fill qa-icon text-accent"></i>
+      <h6>Manage Candidates</h6>
+      <p class="text-muted small mb-0">Add or remove election candidates</p>
+    </a>
+  </div>
+  <div class="col-md-4">
+    <a href="{{ url_for('view_voters') }}" class="quick-action-card">
+      <i class="bi bi-person-lines-fill qa-icon text-info"></i>
+      <h6>View Voters</h6>
+      <p class="text-muted small mb-0">See all registered voters & status</p>
+    </a>
+  </div>
+  <div class="col-md-4">
+    <a href="{{ url_for('admin_results') }}" class="quick-action-card">
+      <i class="bi bi-bar-chart-fill qa-icon text-success"></i>
+      <h6>View Results</h6>
+      <p class="text-muted small mb-0">Live vote counts and winner</p>
+    </a>
+  </div>
+  <div class="col-md-4">
+    <a href="{{ url_for('view_blockchain') }}" class="quick-action-card">
+      <i class="bi bi-boxes qa-icon text-warning"></i>
+      <h6>Blockchain Explorer</h6>
+      <p class="text-muted small mb-0">Inspect all blocks and hashes</p>
+    </a>
+  </div>
+  <div class="col-md-4">
+    <a href="{{ url_for('verify_blockchain') }}" target="_blank" class="quick-action-card">
+      <i class="bi bi-patch-check-fill qa-icon text-primary"></i>
+      <h6>Verify Chain</h6>
+      <p class="text-muted small mb-0">Check blockchain integrity via API</p>
+    </a>
+  </div>
+  <div class="col-md-4">
+    <a href="{{ url_for('export_results') }}" target="_blank" class="quick-action-card">
+      <i class="bi bi-download qa-icon text-secondary"></i>
+      <h6>Export Results</h6>
+      <p class="text-muted small mb-0">Download results as JSON</p>
+    </a>
+  </div>
+</div>
+{% endblock %}

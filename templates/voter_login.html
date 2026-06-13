@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Voter Login | BlockVote{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <div class="auth-icon-wrap voter-icon-wrap">
+      <i class="bi bi-person-check-fill auth-icon"></i>
+    </div>
+    <h4 class="auth-title">Voter Login</h4>
+    <p class="auth-sub">Enter your Voter ID to access the ballot</p>
+
+    <form method="POST" action="{{ url_for('voter_login') }}" novalidate>
+      <div class="mb-3">
+        <label class="form-label text-light">Voter ID</label>
+        <div class="input-group">
+          <span class="input-group-text bg-dark border-secondary text-accent">
+            <i class="bi bi-card-text"></i>
+          </span>
+          <input type="text" name="voter_id" class="form-control bg-dark text-light border-secondary"
+                 placeholder="e.g. V001" required autocomplete="username"
+                 style="text-transform:uppercase;"/>
+        </div>
+        <div class="form-text text-muted">Sample IDs: V001 – V010</div>
+      </div>
+      <div class="mb-4">
+        <label class="form-label text-light">Password</label>
+        <div class="input-group">
+          <span class="input-group-text bg-dark border-secondary text-accent">
+            <i class="bi bi-key-fill"></i>
+          </span>
+          <input type="password" name="password" id="voterPass" class="form-control bg-dark text-light border-secondary"
+                 placeholder="Enter your password" required autocomplete="current-password"/>
+          <button class="btn btn-outline-secondary" type="button" onclick="togglePass('voterPass', this)">
+            <i class="bi bi-eye"></i>
+          </button>
+        </div>
+        <div class="form-text text-muted">Sample passwords: pass001 – pass010</div>
+      </div>
+      <button type="submit" class="btn btn-success w-100 fw-semibold py-2">
+        <i class="bi bi-box-arrow-in-right me-2"></i>Login & Vote
+      </button>
+    </form>
+
+    <div class="text-center mt-3">
+      <a href="{{ url_for('home') }}" class="text-muted small"><i class="bi bi-arrow-left me-1"></i>Back to Home</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function togglePass(id, btn) {
+  const field = document.getElementById(id);
+  const isText = field.type === 'text';
+  field.type = isText ? 'password' : 'text';
+  btn.innerHTML = isText ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
+}
+// Auto-uppercase voter ID input
+document.querySelector('input[name="voter_id"]').addEventListener('input', function(){
+  this.value = this.value.toUpperCase();
+});
+</script>
+{% endblock %}

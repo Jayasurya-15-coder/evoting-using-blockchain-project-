@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Secure E-Voting System | Blockchain</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+</head>
+<body class="home-page">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark nav-glass">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="/">
+        <i class="bi bi-shield-lock-fill me-2 text-accent"></i>BlockVote
+      </a>
+      <div class="ms-auto d-flex gap-2">
+        <a href="{{ url_for('admin_login') }}" class="btn btn-outline-light btn-sm">Admin</a>
+        <a href="{{ url_for('voter_login') }}" class="btn btn-accent btn-sm">Voter Login</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container text-center">
+      <div class="hero-badge mb-3">Blockchain Project</div>
+      <h1 class="hero-title">Secure E-Voting</h1>
+      <h2 class="hero-subtitle">Using Blockchain Technology</h2>
+      <p class="hero-desc mt-3">
+        An immutable, transparent, and tamper-proof digital voting platform
+        powered by a custom SHA-256 blockchain implementation.
+      </p>
+      <div class="d-flex gap-3 justify-content-center mt-4 flex-wrap">
+        <a href="{{ url_for('voter_login') }}" class="btn btn-accent btn-lg px-5">
+          <i class="bi bi-person-check-fill me-2"></i>Cast Your Vote
+        </a>
+        <a href="{{ url_for('admin_login') }}" class="btn btn-outline-light btn-lg px-5">
+          <i class="bi bi-shield-fill me-2"></i>Admin Panel
+        </a>
+      </div>
+
+      <!-- Feature Pills -->
+      <div class="feature-pills mt-5">
+        <span class="pill"><i class="bi bi-lock-fill"></i> SHA-256 Hashing</span>
+        <span class="pill"><i class="bi bi-link-45deg"></i> Immutable Chain</span>
+        <span class="pill"><i class="bi bi-eye-slash-fill"></i> Voter Privacy</span>
+        <span class="pill"><i class="bi bi-check-circle-fill"></i> One-Vote Policy</span>
+        <span class="pill"><i class="bi bi-graph-up"></i> Live Results</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="how-section py-5">
+    <div class="container">
+      <h3 class="section-title text-center mb-5">How It Works</h3>
+      <div class="row g-4">
+        <div class="col-md-3">
+          <div class="step-card">
+            <div class="step-num">01</div>
+            <i class="bi bi-person-badge step-icon"></i>
+            <h5>Voter Authenticates</h5>
+            <p>Login with your unique Voter ID and password.</p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="step-card">
+            <div class="step-num">02</div>
+            <i class="bi bi-check2-square step-icon"></i>
+            <h5>Cast Your Vote</h5>
+            <p>Select your preferred candidate and submit securely.</p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="step-card">
+            <div class="step-num">03</div>
+            <i class="bi bi-boxes step-icon"></i>
+            <h5>Block Created</h5>
+            <p>A new block with your hashed vote is added to the chain.</p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="step-card">
+            <div class="step-num">04</div>
+            <i class="bi bi-bar-chart-fill step-icon"></i>
+            <h5>Results Published</h5>
+            <p>Transparent, verifiable results from the blockchain.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer-dark text-center py-4">
+    <p class="mb-0 text-muted">
+      <i class="bi bi-shield-lock-fill text-accent me-1"></i>
+      Secure E-Voting System | Blockchain Technology | Developed by JAYASURYA B
+    </p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

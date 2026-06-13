@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}Manage Candidates | BlockVote{% endblock %}
+
+{% block content %}
+<div class="page-header mb-4">
+  <h2><i class="bi bi-people-fill me-2 text-accent"></i>Manage Candidates</h2>
+  <p class="text-muted mb-0">Add or remove election candidates</p>
+</div>
+
+<div class="row g-4">
+  <!-- Add Candidate Form -->
+  <div class="col-md-5">
+    <div class="dash-card">
+      <h5 class="dash-card-title"><i class="bi bi-person-plus me-2"></i>Add Candidate</h5>
+      <form method="POST" action="{{ url_for('manage_candidates') }}">
+        <div class="mb-3">
+          <label class="form-label text-light">Candidate Name</label>
+          <input type="text" name="candidate_name" class="form-control bg-dark text-light border-secondary"
+                 placeholder="Full name of candidate" required maxlength="100"/>
+        </div>
+        <button type="submit" class="btn btn-accent w-100">
+          <i class="bi bi-plus-circle me-1"></i>Add Candidate
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Candidate List -->
+  <div class="col-md-7">
+    <div class="dash-card">
+      <h5 class="dash-card-title">
+        <i class="bi bi-list-check me-2"></i>All Candidates
+        <span class="badge bg-accent ms-2">{{ candidates|length }}</span>
+      </h5>
+      {% if candidates %}
+        <div class="table-responsive">
+          <table class="table table-dark table-hover align-middle">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Candidate Name</th>
+                <th>ID</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for c in candidates %}
+              <tr>
+                <td>{{ loop.index }}</td>
+                <td>
+                  <i class="bi bi-person-circle me-2 text-accent"></i>{{ c.candidate_name }}
+                </td>
+                <td><span class="badge bg-secondary">{{ c.candidate_id }}</span></td>
+                <td>
+                  <a href="{{ url_for('delete_candidate', cid=c.candidate_id) }}"
+                     class="btn btn-sm btn-outline-danger"
+                     onclick="return confirm('Delete this candidate?')">
+                    <i class="bi bi-trash"></i>
+                  </a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <div class="empty-state">
+          <i class="bi bi-person-x fs-1 text-muted"></i>
+          <p class="text-muted mt-2">No candidates added yet.</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
